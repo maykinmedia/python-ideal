@@ -1,0 +1,53 @@
+{% extends "ideal/tests/base.html" %}
+
+{% block config_params %}{% endblock %}
+
+{% block content %}
+
+    <p>For a successfull iDEAL payment the following flow should be followed.</p>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="width: 50px;">Step</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Requests a list of issuers.</td>
+                <td>Function: <a href="{% url 'ideal_tests_get_issuers' %}">get_issuers(...)</a></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Select an issuer.</td>
+                <td><i>User action</i></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Start a new transaction.</td>
+                <td>Function: <a href="{% url 'ideal_tests_start_transaction' %}">start_transaction(...)</a></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Authenticate transaction.</td>
+                <td><i>User/Acceptant action</i></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Request transaction status.</td>
+                <td>Function: <a href="{% url 'ideal_tests_get_transaction_status' %}">get_transaction_status(...)</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>This API provides functionality for performing steps <strong>1, 3 &amp; 5</strong>.</p>
+
+    <p>
+        <span class="label label-info">Note</span>
+        For optimal performance, the list of issuers (step 1) can be cached locally.
+    </p>
+
+{% endblock %}

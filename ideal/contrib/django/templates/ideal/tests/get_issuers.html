@@ -1,0 +1,81 @@
+{% extends "ideal/tests/base.html" %}
+
+{% block extra_title %} - Function: get_issuers{% endblock %}
+
+{% block extra_js %}
+    <script type="text/javascript">
+        window.onload = function () {
+            var select = document.getElementById("issuer-id-list");
+            select.onchange = function () {
+                document.getElementById("issuer-id").value = select.value;
+            };
+            document.getElementById("issuer-id").value = select.value;
+        }
+    </script>
+{% endblock %}
+
+{% block function_intro %}
+
+    <h2>Function: get_issuers</h2>
+
+{% endblock %}
+
+{% block content %}
+
+    <h3>Function parameters</h3>
+    <form method="post">
+        {% csrf_token %}
+
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td><i>(none)</i></td>
+                </tr>
+
+                {{ form.as_table }}
+
+            </tbody>
+        </table>
+
+        <button class="btn" type="submit">Requests a list of issuers</button>
+
+        <span class="label label-info">Note</span> This calls the function <code>get_issuers</code> with given parameters.
+
+    </form>
+
+    {% if response %}
+
+        <h3>Response</h3>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Acquirer ID:</th>
+                    <td>{{ response.acquirer_id }}</td>
+                </tr>
+                <tr>
+                    <th>Issuers:</th>
+                    <td>
+                        <label>
+                            <select id="issuer-id-list">
+                                {% for country, issuers in response.issuers.items %}
+                                    <optgroup label="{{ country }}">
+                                        {% for code, name in issuers.items %}
+                                            <option value="{{ code }}">{{ name }}</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                {% endfor %}
+                            </select>
+                        </label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form class="center" method="get" action="{{ start_transaction_url }}">
+            <input type="hidden" value="" id="issuer-id" name="issuer_id"/>
+            <button class="btn" type="submit">Select an issuer</button>
+        </form>
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "ideal/tests/base.html" %}
+
+{% block extra_title %} - Function: get_transaction_status{% endblock %}
+
+{% block function_intro %}
+
+    <h2>Function: get_transaction_status</h2>
+
+{% endblock %}
+
+{% block content %}
+
+    <h3>Function parameters</h3>
+    <form method="post">
+        {% csrf_token %}
+
+        <table class="table table-bordered">
+            <tbody>
+
+                {{ form.as_table }}
+
+            </tbody>
+        </table>
+
+        <button class="btn" type="submit">Request transaction status</button>
+
+        <span class="label label-info">Note</span> This calls the function <code>get_transaction_status</code> with given parameters.
+
+    </form>
+
+    {% if response %}
+
+        <h3>Response</h3>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Acquirer ID:</th>
+                    <td>{{ response.acquirer_id }}</td>
+                </tr>
+                <tr>
+                    <th>Acquirer ID:</th>
+                    <td>{{ response.transaction_id }}</td>
+                </tr>
+                <tr>
+                    <th>Transaction Status:</th>
+                    <td>{{ response.status }}</td>
+                </tr>
+                <tr>
+                    <th>Status date timestamp:</th>
+                    <td>{{ response.status_date_timestamp|date:"c" }}</td>
+                </tr>
+                <tr>
+                    <th>Consumer Name:</th>
+                    <td>{{ response.consumer_name }}</td>
+                </tr>
+                <tr>
+                    <th>Consumer IBAN:</th>
+                    <td>{{ response.consumer_iban }}</td>
+                </tr>
+                <tr>
+                    <th>Consumer BIC:</th>
+                    <td>{{ response.consumer_bic }}</td>
+                </tr>
+                <tr>
+                    <th>Amount:</th>
+                    <td>{{ response.amount }}</td>
+                </tr>
+                <tr>
+                    <th>Currency:</th>
+                    <td>{{ response.currency }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    {% endif %}
+
+{% endblock %}

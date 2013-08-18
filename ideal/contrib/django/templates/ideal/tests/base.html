@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>IAC-Python{% block extra_title %}{% endblock %}</title>
+
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        table tbody tr th {
+            width: 200px;
+        }
+        table tr.required label {
+            font-weight: bold;
+        }
+        table tr.error {
+            color: #b94a48;
+        }
+        table tr.error input {
+            border: 1px solid #b94a48;
+        }
+        ul.errorlist {
+            color: #b94a48;
+            margin: 0;
+            list-style-type: none;
+        }
+
+        header {
+            background: url({{ STATIC_URL }}ideal/img/ideal_logo.gif) no-repeat top left;
+            padding-left: 120px;
+            height: 100px;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+
+    {% block extra_js %}{% endblock %}
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>Advanced Connector - Python</h1>
+            <p class="lead">Test Page</p>
+        </header>
+
+        {% block function_intro %}{% endblock %}
+
+        {% block config_params %}
+
+            <h3>Configuration parameters</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>Merchant ID:</th>
+                        <td>{{ settings.MERCHANT_ID }}</td>
+                    </tr>
+                    <tr>
+                        <th>Sub ID:</th>
+                        <td>{{ settings.SUB_ID }}</td>
+                    </tr>
+                    <tr>
+                        <th>Acquirer URL:</th>
+                        <td>{{ acquirer_url }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        {% endblock %}
+
+        {% if error_message %}
+            <div class="alert alert-block alert-error">
+                <p>{{ error_message }}</p>
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+
+        </div>
+    </body>
+</html>

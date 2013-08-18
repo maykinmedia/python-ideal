@@ -1,0 +1,114 @@
+{% extends "ideal/tests/base.html" %}
+
+{% block extra_title %} - Function: start_transaction{% endblock %}
+
+{% block function_intro %}
+
+    <h2>Function: start_transaction</h2>
+
+{% endblock %}
+
+{% block content %}
+
+    <h3>Function parameters</h3>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="span6">
+                <table class="table table-bordered">
+                    <tbody>
+
+                        {{ form.as_table }}
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="span6">
+
+                <p>
+                    For specific amounts, the iDEAL test environment returns the following pre-programmed results which
+                    can be obtained with the <code>get_transaction_status</code> function.
+                </p>
+
+                <table class="table table-bordered table-condensed" style="font-size: 11px;">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Transaction status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1.00</td>
+                            <td>Success</td>
+                            <td>Positive result; the payment is guaranteed.</td>
+                        </tr>
+                        <tr>
+                            <td>2.00</td>
+                            <td>Cancelled</td>
+                            <td>Negative result due to cancellation by Consumer; no payment has been made.</td>
+                        </tr>
+                        <tr>
+                            <td>3.00</td>
+                            <td>Expired</td>
+                            <td>Negative result due to expiration of the transaction; no payment has been made.</td>
+                        </tr>
+                        <tr>
+                            <td>4.00</td>
+                            <td>Open</td>
+                            <td>Final result not yet known). A new status request is necessary to obtain the status.</td>
+                        </tr>
+                        <tr>
+                            <td>5.00</td>
+                            <td>Failure</td>
+                            <td>Negative result due to other reasons; no payment has been made.</td>
+                        </tr>
+                        <tr>
+                            <td>7.00</td>
+                            <td>SO1000 Failure in system</td>
+                            <td>Internal error.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <button class="btn" type="submit">Start a new transaction</button>
+
+        <span class="label label-info">Note</span> This calls the function <code>start_transaction</code> with given parameters.
+
+    </form>
+
+    {% if response %}
+
+        <h3>Response</h3>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Acquirer ID:</th>
+                    <td>{{ response.acquirer_id }}</td>
+                </tr>
+                <tr>
+                    <th>Transaction ID:</th>
+                    <td>{{ response.transaction_id }}</td>
+                </tr>
+                <tr>
+                    <th>Issuer Authentication URL:</th>
+                    <td>{{ response.issuer_authentication_url }}</td>
+                </tr>
+                <tr>
+                    <th>Entrance Code:</th>
+                    <td>{{ response.entrance_code }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>
+            <a href="{{ response.issuer_authentication_url }}" class="btn">Authenticate transaction</a>
+        </p>
+
+    {% endif %}
+
+{% endblock %}
