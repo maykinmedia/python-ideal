@@ -1,0 +1,7 @@
+<Signature xmlns='http://www.w3.org/2000/09/xmldsig#'>
+{signed_info}
+ <SignatureValue>{signature_value}</SignatureValue>
+ <KeyInfo>
+   <KeyName>{key_name}</KeyName>
+  </KeyInfo>
+</Signature>

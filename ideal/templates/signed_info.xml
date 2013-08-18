@@ -1,0 +1,11 @@
+  <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+   <CanonicalizationMethod Algorithm='http://www.w3.org/2001/10/xml-exc-c14n#'/>
+   <SignatureMethod Algorithm='http://www.w3.org/2001/04/xmldsig-more#rsa-sha256'/>
+   <Reference URI=''>
+    <Transforms>
+     <Transform Algorithm='http://www.w3.org/2000/09/xmldsig#enveloped-signature'/>
+    </Transforms>
+    <DigestMethod Algorithm='http://www.w3.org/2001/04/xmlenc#sha256'/>
+    <DigestValue>{digest_value}</DigestValue>
+   </Reference>
+  </SignedInfo>

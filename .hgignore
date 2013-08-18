@@ -1,0 +1,14 @@
+syntax: regexp
+
+# Developers
+^\.hg/
+^\.idea/
+^\.sass-cache/
+\.egg-info$
+\.db$
+\.pyc$
+~$
+
+# Environment
+^env/
+^media/
