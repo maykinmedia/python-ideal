@@ -1,0 +1,2 @@
+include setup.py README.rst MANIFEST.in LICENSE CHANGES.rst
+recursive-include ideal *.html *.gif
