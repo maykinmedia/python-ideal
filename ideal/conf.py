@@ -19,40 +19,40 @@ class Settings(object):
     MERCHANT_RETURN_URL = ''
 
     # The merchant's bank. See VENDORS for valid values.
-    VENDOR = None
+    ACQUIRER = None
 
     # The language of messages in the response.
     LANGUAGE = 'nl'  # ISO 639-1, only Dutch (nl) and English (en) are supported.
 
-    VENDORS = {
+    DEBUG = True
+
+    _ACQUIRERS = {
         'ING': {
-            'AQUIRER_URL': 'https://ideal.secure-ing.com:443/ideal/iDEALv3',
-            'AQUIRER_URL_TEST': 'https://idealtest.secure-ing.com:443/ideal/iDEALv3',
+            'ACQUIRER_URL': 'https://ideal.secure-ing.com:443/ideal/iDEALv3',
+            'ACQUIRER_URL_TEST': 'https://idealtest.secure-ing.com:443/ideal/iDEALv3',
         }
     }
 
-    DEBUG = True
-
-    def get_aquirer_url(self, vendor=None, test=None):
+    def get_acquirer_url(self, acquirer=None, test=None):
         """
         Return the acquirer URL, depending on the ``vendor`` and whether it should be the ``test`` environment or not.
 
-        :param vendor: Name of the vendor.
+        :param acquirer: Name of the acquirer.
         :param test: ``True`` if the test environment should be used, ``False`` otherwise. Default\: ``settings.DEBUG``.
 
         :return: The URL of the acquirer's iDEAL environment.
         """
-        if vendor is None:
-            vendor = self.VENDOR
+        if acquirer is None:
+            acquirer = self.ACQUIRER
         if test is None:
             test = self.DEBUG
 
-        if not vendor or not test:
+        if not acquirer or not test:
             raise IdealConfigurationException(
-                'Could not get the acquirer URL for VENDOR="{vendor}".'.format(vendor=vendor)
+                'Could not get the acquirer URL for ACQUIRER="{acquirer}".'.format(acquirer=acquirer)
             )
 
-        return self.VENDORS[vendor]['AQUIRER_URL%s' % '_TEST' if test else '']
+        return self._ACQUIRERS[acquirer]['ACQUIRER_URL%s' % '_TEST' if test else '']
 
     def options(self):
         """

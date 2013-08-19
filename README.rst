@@ -25,7 +25,7 @@ It is assumed you have already requested access at your bank for iDEAL.
     sub_id = 0
     expiration_period = PT15M
     merchant_return_url = https://www.example.com/ideal/callback/
-    vendor = ING
+    acquirer = ING
     language = nl
 
 4. In Python, make sure your settings are initialized by loading the config file::
