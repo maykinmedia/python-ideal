@@ -62,6 +62,24 @@ class Settings(object):
         """
         return [var for var in dir(self) if not var.startswith('_') and not callable(getattr(settings, var))]
 
+    def validate(self):
+        """
+        Validate all options in this settings object.
+        """
+        for setting_name in ['PRIVATE_KEY_FILE', 'PRIVATE_CERTIFICATE']:
+            setting_value = getattr(self, setting_name)
+            if not setting_value or not os.path.exists(setting_value):
+                raise IdealConfigurationException('The {setting_name} file ({file}) could not be found.'.format(
+                    setting_name=setting_name,
+                    file=setting_value,
+                ))
+
+        for cert in self.CERTIFICATES:
+            if not os.path.exists(cert):
+                raise IdealConfigurationException('One of the CERTIFICATES files ({file}) could not be found.'.format(
+                    file=cert,
+                ))
+
     def load(self, config_file):
         """
         Initialize the settings with a config file.

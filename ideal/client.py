@@ -223,6 +223,9 @@ class IdealClient(object):
     def __init__(self):
         self.security = Security()
 
+        # All settings should be correct before instantiating a client.
+        settings.validate()
+
     def _get_context(self, **kwargs):
         """
         Return the default context used in every request.
