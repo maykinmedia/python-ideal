@@ -261,7 +261,7 @@ class IdealClient(object):
             'content-type': 'text/xml; charset="utf-8"'
         }
 
-        uri = settings.get_aquirer_url()
+        uri = settings.get_acquirer_url()
 
         return HttpRequest(uri, 'POST', body, headers)
 
