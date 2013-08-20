@@ -23,10 +23,8 @@ It is assumed you have already requested access at your bank for iDEAL.
     certificates = ideal_v3.cer
     merchant_id = 123456789
     sub_id = 0
-    expiration_period = PT15M
     merchant_return_url = https://www.example.com/ideal/callback/
     acquirer = ING
-    language = nl
 
 4. In Python, make sure your settings are initialized by loading the config file::
 
@@ -43,6 +41,46 @@ It is assumed you have already requested access at your bank for iDEAL.
 
     response = ideal.get_issuers()
     print response.issuers
+
+
+Settings
+========
+
+*DEBUG* (``boolean``)
+    Uses the test URL of the acquirer if set to ``True``, otherwise the production URL is used (default: ``True``).
+
+*PRIVATE_KEY_FILE* (``string``)
+    Absolute path to the merchant's private key (default: ``priv.pem``).
+
+*PRIVATE_KEY_PASSWORD* (``string``)
+    Password to access the merchant's private key.
+
+*PRIVATE_CERTIFICATE* (``string``)
+    Absolute path to the merchant's private certificate (default: ``cert.cer``).
+
+*CERTIFICATES* (``list`` or comma-separated ``string`` if file config is used)
+    Absolute path the the acquirer's iDEAL certificate (default: ``ideal_v3.cer``).
+
+*MERCHANT_ID* (``string``)
+    The ID of the online shop, received by the acceptor during the iDEAL registration process.
+
+*SUB_ID* (``string``)
+    Sub ID of the online shop, also received during the registration process (default: ``0``).
+
+*MERCHANT_RETURN_URL* (``string``)
+    The callback URL for iDEAL. The customer is redirected to this URL after the payment process at the acquirer.
+
+*EXPIRATION_PERIOD* (``string``)
+    The time a transaction is valid for in ISO 8601 format, minimum is 1 minute, maximum is 1 hour (default: ``PT15M``).
+
+*ACQUIRER* (``string``)
+    Acquirer code to identify the endpoint. Valid values are: [``ING``, ``RABOBANK``] (default: ``None``).
+
+*ACQUIRER_URL* (``string``)
+    Overrides the default acquirer URL and ignores the ``ACQUIRER`` and ``DEBUG`` setting (default: ``None``).
+
+*LANGUAGE* (``string``)
+    Response language in ISO 639-1 format, only Dutch (``nl``) and English (``en``) are supported (default: ``nl``).
 
 
 Contrib
