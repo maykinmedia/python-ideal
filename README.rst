@@ -54,14 +54,19 @@ Django
 1. All settings can be prefixed with ``IDEAL_`` and placed in Django's ``settings.py`` file, rather than using a
    configuration file.
 
-2. Add ``ideal.contrib.django`` to your ``INSTALLED_APPS``.
+2. Add ``ideal.contrib.django.ideal_compat`` to your ``INSTALLED_APPS``.
+
+3. Run ``python manage.py syncdb`` (or ``migrate``) to create the ``Issuer`` table in your database, to store a local
+   copy of all issuers.
+
+4. Run ``python manage.py sync_issuers`` to fill the ``Issuer`` table with a list of issuers.
 
 3. Optionally, you can add the the following to your main ``urls.py`` to test your configuration and perform all iDEAL
    operations via a web interface::
 
     if settings.DEBUG:
         urlpatterns += patterns('',
-            (r'^ideal/tests/', include('ideal.contrib.django.test_urls')),
+            (r'^ideal/tests/', include('ideal.contrib.django.ideal_compat.test_urls')),
         )
 
 4. If you are in DEBUG mode and use ``runserver``, you can point your browser to:
