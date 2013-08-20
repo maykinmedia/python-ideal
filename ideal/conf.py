@@ -18,8 +18,10 @@ class Settings(object):
 
     MERCHANT_RETURN_URL = ''
 
-    # The merchant's bank. See VENDORS for valid values.
+    # The merchant's bank. See _ACQUIRERS for valid values.
     ACQUIRER = None
+    # Overrides the default acquirer URL.
+    ACQUIRER_URL = None
 
     # The language of messages in the response.
     LANGUAGE = 'nl'  # ISO 639-1, only Dutch (nl) and English (en) are supported.
@@ -30,7 +32,11 @@ class Settings(object):
         'ING': {
             'ACQUIRER_URL': 'https://ideal.secure-ing.com:443/ideal/iDEALv3',
             'ACQUIRER_URL_TEST': 'https://idealtest.secure-ing.com:443/ideal/iDEALv3',
-        }
+        },
+        'RABOBANK': {
+            'ACQUIRER_URL': 'https://ideal.rabobank.nl/ideal/iDealv3',
+            'ACQUIRER_URL_TEST': 'https://idealtest.rabobank.nl/ideal/iDEALv3',
+        },
     }
 
     def get_acquirer_url(self, acquirer=None, test=None):
@@ -42,6 +48,9 @@ class Settings(object):
 
         :return: The URL of the acquirer's iDEAL environment.
         """
+        if self.ACQUIRER_URL:
+            return self.ACQUIRER_URL
+
         if acquirer is None:
             acquirer = self.ACQUIRER
         if test is None:
