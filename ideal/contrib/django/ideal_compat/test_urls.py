@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.base import TemplateView
 
-from ideal.contrib.django.views import GetIssuersView, StartTransactionView, GetTransactionStatusView
+from ideal.contrib.django.ideal_compat.views import GetIssuersView, StartTransactionView, GetTransactionStatusView
 
 
 urlpatterns = patterns('',
