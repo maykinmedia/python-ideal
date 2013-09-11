@@ -19,7 +19,7 @@ class Security(object):
         """
         Return the certificate SHA1-fingerprint.
 
-        :param private_certificate: File path to the merchant's own certificate file.
+        :param private_certificate: File path to the merchant's own certificate file (ie. cert.cer).
 
         :return: Fingerprint as a string.
         """

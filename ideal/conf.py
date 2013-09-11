@@ -56,12 +56,12 @@ class Settings(object):
         if test is None:
             test = self.DEBUG
 
-        if not acquirer or not test:
+        if not acquirer or test is None:
             raise IdealConfigurationException(
                 'Could not get the acquirer URL for ACQUIRER="{acquirer}".'.format(acquirer=acquirer)
             )
 
-        return self._ACQUIRERS[acquirer]['ACQUIRER_URL%s' % '_TEST' if test else '']
+        return self._ACQUIRERS[acquirer]['ACQUIRER_URL{postfix}'.format(postfix='_TEST' if test else '')]
 
     def options(self):
         """
@@ -75,6 +75,16 @@ class Settings(object):
         """
         Validate all options in this settings object.
         """
+        for setting_name in self.options():
+            setting_value = getattr(self, setting_name)
+            if setting_name not in ['ACQUIRER_URL', 'ACQUIRER', 'DEBUG'] and not setting_value:
+                raise IdealConfigurationException('The {setting_name} setting cannot be empty.'.format(
+                    setting_name=setting_name,
+                ))
+
+        if not self.ACQUIRER and not self.ACQUIRER_URL:
+            raise IdealConfigurationException('Either ACQUIRER or ACQUIRER_URL needs to set.')
+
         for setting_name in ['PRIVATE_KEY_FILE', 'PRIVATE_CERTIFICATE']:
             setting_value = getattr(self, setting_name)
             if not setting_value or not os.path.exists(setting_value):
@@ -82,6 +92,9 @@ class Settings(object):
                     setting_name=setting_name,
                     file=setting_value,
                 ))
+
+        if not isinstance(self.CERTIFICATES, (list, tuple)):
+            raise IdealConfigurationException('The CERTIFICATES setting must be a list.')
 
         for cert in self.CERTIFICATES:
             if not os.path.exists(cert):
