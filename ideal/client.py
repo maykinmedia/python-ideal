@@ -378,7 +378,6 @@ class IdealClient(object):
         :param expiration_period: Override the expiration period (optional). Default: ``settings.EXPIRATION_PERIOD``.
         :param language: Override the language (optional). Default\: ``settings.LANGUAGE``.
 
-
         :return: A :class:`TransactionResponse` object.
         """
         if merchant_return_url is None:
