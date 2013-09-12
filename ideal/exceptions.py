@@ -39,9 +39,13 @@ class IdealResponseException(IdealException):
         }
 
         for node in xml_document.xpath('//ideal:Error/*', namespaces=IDEAL_NAMESPACES):
-            tag_name = QName(node.tag)
+            tag_name = QName(node.tag).localname
             if tag_name in mapping:
                 setattr(self, mapping[tag_name], node.text)
 
+    def __str__(self):
+        return self.__repr__()
+
     def __repr__(self):
-        return '{code}: {message}'.format({'code': self.error_code, 'message': self.error_message})
+        return '{code}: {message} ({detail}).'.format(code=self.error_code, message=self.error_message,
+                                                      detail=self.error_detail)
