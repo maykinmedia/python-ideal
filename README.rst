@@ -99,7 +99,37 @@ Django
 
 4. Run ``python manage.py sync_issuers`` to fill the ``Issuer`` table with a list of issuers.
 
-3. Optionally, you can add the the following to your main ``urls.py`` to test your configuration and perform all iDEAL
+5. You should create a view to handle the iDEAL callback and add the URL (as defined in your settings as
+   ``MERCHANT_RETURN_URL``) to your ``urls.py``. Below, you'll find an example view to redirect the use depending on the
+   transaction status::
+
+    from django.views.generic.base import RedirectView
+    from ideal.client import IdealClient
+    from ideal.exceptions import IdealException
+
+    class IdealCallbackView(RedirectView):
+        permanent = False
+
+        def get_redirect_url(self, **kwargs):
+            """
+            Simplistic view to handle the callback. You probably want to update your database with the transaction
+            status as well, or sent a confirmation email, etc.
+            """
+            client = IdealClient()
+
+            try:
+                response = client.get_transaction_status(self.request.GET.get('trxid'))
+                if response.status == TransactionStatus.SUCCESS:
+                    # Redirect to some view with a success message.
+                    return '<payment success url>'
+            except IdealException, e:
+                # Do something with the error message.
+                error_message = e.message
+
+            # Redirect to some view with a failure message.
+            return '<payment failed url>'
+
+6. Optionally, you can add the the following to your main ``urls.py`` to test your configuration and perform all iDEAL
    operations via a web interface::
 
     if settings.DEBUG:
@@ -107,5 +137,5 @@ Django
             (r'^ideal/tests/', include('ideal.contrib.django.ideal_compat.test_urls')),
         )
 
-4. If you are in DEBUG mode and use ``runserver``, you can point your browser to:
+7. If you are in DEBUG mode and use ``runserver``, you can point your browser to:
    ``http://localhost:8000/ideal/tests/``.
