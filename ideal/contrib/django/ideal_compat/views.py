@@ -97,7 +97,6 @@ class StartTransactionView(FormView, IdealViewMixin):
         response = None
 
         try:
-            print 'kwargs', kwargs
             response = self.client.start_transaction(**kwargs)
         except IdealException, e:
             error_message = e.message
