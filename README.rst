@@ -89,8 +89,8 @@ Contrib
 Django
 ------
 
-1. All settings can be prefixed with ``IDEAL_`` and placed in Django's ``settings.py`` file, rather than using a
-   configuration file.
+1. All settings can be prefixed with ``IDEAL_`` and placed in Django's ``settings.py`` file in uppercase, rather than
+   using a configuration file. Of course, you may still use the settings file method.
 
 2. Add ``ideal.contrib.django.ideal_compat`` to your ``INSTALLED_APPS``.
 
