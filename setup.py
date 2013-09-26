@@ -36,7 +36,6 @@ setup(
     install_requires=install_requires,
     dependency_links=[],
     tests_require=tests_require,
-    package_data={'ideal': ['templates/*.xml']},
     include_package_data=True,
     zip_safe=False,
 
