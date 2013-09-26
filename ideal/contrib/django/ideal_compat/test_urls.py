@@ -1,4 +1,9 @@
-from django.conf.urls import patterns, include, url
+import django
+if django.VERSION[0:1] < (1,4):
+    from django.conf.urls.defaults import patterns, url
+else:
+    from django.conf.urls import patterns, url
+
 from django.views.generic.base import TemplateView
 
 from ideal.contrib.django.ideal_compat.views import GetIssuersView, StartTransactionView, GetTransactionStatusView
