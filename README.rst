@@ -10,7 +10,7 @@ It is assumed you have already requested access at your bank for iDEAL.
 
 1. Install this library in your virtual environment.
 
-2. Generate or locate your certificates (``cert.cer``, ``pair.p12`` and ``priv.pem``) and your bank's public certificate
+2. Generate or locate your certificates (``cert.cer``, and ``priv.pem``) and your bank's public certificate
    (``ideal_v3.cer``), and place them in a folder where your web application can access them.
 
 3. Create a config file called ``ideal.cfg`` (or copy and modify the ``ideal-example.cfg``)::
@@ -83,13 +83,21 @@ Settings
     Response language in ISO 639-1 format, only Dutch (``nl``) and English (``en``) are supported (default: ``nl``).
 
 
+Testing
+=======
+
+To run all unit tests, download the entire package and run::
+
+    python setup.py tests --test-suite ideal.tests
+
+
 Contrib
 =======
 
 Django
 ------
 
-1. All settings can be prefixed with ``IDEAL_`` and placed in Django's ``settings.py`` file in uppercase, rather than
+1. All settings can be capitalized and prefixed with ``IDEAL_`` and placed in Django's ``settings.py`` file, rather than
    using a configuration file. Of course, you may still use the settings file method.
 
 2. Add ``ideal.contrib.django.ideal_compat`` to your ``INSTALLED_APPS``.
