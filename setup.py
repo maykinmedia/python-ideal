@@ -14,7 +14,7 @@ changes = read_file('CHANGES.rst')
 
 
 install_requires = [
-    'requests',
+    'requests>=1.2.0',
     'lxml',
     'python-dateutil',
     'M2Crypto>=0.21'
