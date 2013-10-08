@@ -29,7 +29,7 @@ class IdealResponseException(IdealException):
     def __init__(self, xml_document):
 
         self._xml_document = xml_document
-
+        
         mapping = {
             'errorCode': 'error_code',
             'errorMessage': 'error_message',
@@ -43,9 +43,9 @@ class IdealResponseException(IdealException):
             if tag_name in mapping:
                 setattr(self, mapping[tag_name], node.text)
 
-    def __str__(self):
-        return self.__repr__()
-
-    def __repr__(self):
+    @property
+    def message(self):
         return '{code}: {message} ({detail}).'.format(code=self.error_code, message=self.error_message,
                                                       detail=self.error_detail)
+    def __str__(self):
+        return self.message
