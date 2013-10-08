@@ -1,14 +1,20 @@
 from django import forms
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 
 from ideal.conf import settings
 from ideal.client import IdealClient
-from ideal.exceptions import IdealException
+from ideal.exceptions import IdealException, IdealConfigurationException
 
 
 class IdealViewMixin(object):
-    client = IdealClient()
+
+    @property
+    def client(self):
+        if not hasattr(self, '_client'):
+            self._client = IdealClient()
+        return self._client
 
     def get_default_context(self):
         return {
@@ -23,6 +29,35 @@ class IdealFormMixin(object):
 
 class GetIssuerForm(forms.Form, IdealFormMixin):
     pass
+
+
+class IndexView(TemplateView):
+    template_name = 'ideal/tests/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+
+        try:
+            client = IdealClient()
+        except IdealConfigurationException, e:
+            context.update({
+                'error_message': 'Cannot read configuration: {msg}'.format(msg=e.message)
+            })
+        else:
+            if len(settings.PRIVATE_KEY_PASSWORD) > 5:
+                password = '{first}***{last}'.format(first=settings.PRIVATE_KEY_PASSWORD[0],
+                                                     last=settings.PRIVATE_KEY_PASSWORD[-1])
+            else:
+                password = '******'
+
+            context.update({
+                'settings': settings,
+                'private_key_password': password,
+                'acquirer_url': settings.get_acquirer_url(),
+                'fingerprint': client.security.get_fingerprint(settings.PRIVATE_CERTIFICATE),
+            })
+
+        return context
 
 
 class GetIssuersView(FormView, IdealViewMixin):
