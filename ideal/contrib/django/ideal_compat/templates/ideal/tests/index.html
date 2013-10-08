@@ -1,6 +1,20 @@
 {% extends "ideal/tests/base.html" %}
 {% load url from future %}
 
+{% block extra_js %}
+    <script type="text/javascript">
+        function toggleSettings() {
+            var div = document.getElementById('settings');
+            if (div.style.display !== 'none') {
+                div.style.display = 'none';
+            }
+            else {
+                div.style.display = 'block';
+            }
+        }
+    </script>
+{% endblock %}
+
 {% block config_params %}{% endblock %}
 
 {% block content %}
@@ -50,5 +64,82 @@
         <span class="label label-info">Note</span>
         For optimal performance, the list of issuers (step 1) can be cached locally.
     </p>
+
+    {% if settings %}
+        <p>
+            <button class="btn" onclick="javascript: toggleSettings();">Show settings</button>
+        </p>
+
+        <div id="settings" style="display: none;">
+            <h3>Settings</h3>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>PRIVATE_KEY_FILE</td>
+                        <td>{{ settings.PRIVATE_KEY_FILE }}</td>
+                    </tr>
+                    <tr>
+                        <td>PRIVATE_KEY_PASSWORD</td>
+                        <td>{{ private_key_password }}</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">PRIVATE_CERTIFICATE</td>
+                        <td>{{ settings.PRIVATE_CERTIFICATE }}</td>
+                    </tr>
+                    <tr>
+                        <td><span class="label label-info">Fingerprint</span> {{ fingerprint }}</td>
+                    </tr>
+                    <tr>
+                        <td>CERTIFICATES</td>
+                        <td>{% for cert in settings.CERTIFICATES %}{{ cert }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td>MERCHANT_ID</td>
+                        <td>{{ settings.MERCHANT_ID }}</td>
+                    </tr>
+                    <tr>
+                        <td>SUB_ID</td>
+                        <td>{{ settings.SUB_ID }}</td>
+                    </tr>
+                    <tr>
+                        <td>EXPIRATION_PERIOD</td>
+                        <td>{{ settings.EXPIRATION_PERIOD }}</td>
+                    </tr>
+                    <tr>
+                        <td>MERCHANT_RETURN_URL</td>
+                        <td>{{ settings.MERCHANT_RETURN_URL }}</td>
+                    </tr>
+                    <tr>
+                        <td>ACQUIRER</td>
+                        <td>{{ settings.ACQUIRER }}</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">ACQUIRER_URL</td>
+                        <td>{{ acquirer_url }}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                             <span class="label label-info">Note</span> {% if not settings.ACQUIRER_URL %}Resolved from ACQUIRER and DEBUG settings{% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>LANGUAGE</td>
+                        <td>{{ settings.LANGUAGE }}</td>
+                    </tr>
+                    <tr>
+                        <td>DEBUG</td>
+                        <td>{{ settings.DEBUG }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
 
 {% endblock %}
