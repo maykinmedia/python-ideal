@@ -1,5 +1,5 @@
 import django
-if django.VERSION[0:1] < (1,4):
+if django.VERSION[0:2] < (1,4):
     from django.conf.urls.defaults import patterns, url
 else:
     from django.conf.urls import patterns, url
