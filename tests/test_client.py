@@ -3,10 +3,10 @@ import datetime
 import os
 from decimal import Decimal
 
+import dateutil.tz
 import mock
 from unittest2 import TestCase
 
-import dateutil.tz
 from ideal.client import IdealClient
 from ideal.exceptions import IdealResponseException
 

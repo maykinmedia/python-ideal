@@ -5,15 +5,15 @@ import uuid
 from decimal import Decimal
 from io import BytesIO
 
-import requests
-
 import dateutil.parser
+import requests
+from lxml import etree
+from lxml.etree import QName, XMLSyntaxError
+
 from ideal.conf import settings
 from ideal.exceptions import IdealResponseException, IdealSecurityException, IdealServerException
 from ideal.security import Security
 from ideal.utils import IDEAL_NAMESPACES, convert_camelcase, render_to_string
-from lxml import etree
-from lxml.etree import QName, XMLSyntaxError
 
 logger = logging.getLogger(__name__)
 

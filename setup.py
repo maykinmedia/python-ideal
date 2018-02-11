@@ -1,60 +1,149 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import codecs
 import os
+import re
 import sys
-import ideal
-from setuptools import setup, find_packages
+
+import setuptools
+import setuptools.command.test
+
+try:
+    import platform
+    _pyimp = platform.python_implementation
+except (AttributeError, ImportError):
+    def _pyimp():
+        return 'Python'
+
+NAME = 'ideal'
+
+E_UNSUPPORTED_PYTHON = '%s requires %%s %%s or later!' % (NAME,)
+
+PYIMP = _pyimp()
+PY26_OR_LESS = sys.version_info < (2, 7)
+PY3 = sys.version_info[0] == 3
+PY33_OR_LESS = PY3 and sys.version_info < (3, 4)
+PYPY_VERSION = getattr(sys, 'pypy_version_info', None)
+PYPY = PYPY_VERSION is not None
+PYPY24_ATLEAST = PYPY_VERSION and PYPY_VERSION >= (2, 4)
+
+if PY26_OR_LESS:
+    raise Exception(E_UNSUPPORTED_PYTHON % (PYIMP, '2.7'))
+elif PY33_OR_LESS and not PYPY24_ATLEAST:
+    raise Exception(E_UNSUPPORTED_PYTHON % (PYIMP, '3.4'))
+
+# -*- Classifiers -*-
+
+classes = """
+    Development Status :: 5 - Production/Stable
+    License :: OSI Approved :: MIT License
+    Programming Language :: Python
+    Programming Language :: Python :: 2
+    Programming Language :: Python :: 2.7
+    Programming Language :: Python :: Implementation :: CPython
+    Framework :: Django
+    Framework :: Django :: 1.6
+    Framework :: Django :: 1.7
+    Framework :: Django :: 1.8
+    Framework :: Django :: 1.9
+    Operating System :: OS Independent
+    Topic :: Communications
+    Topic :: System :: Distributed Computing
+    Topic :: Software Development :: Libraries :: Python Modules
+"""
+classifiers = [s.strip() for s in classes.split('\n') if s]
+
+# -*- Distribution Meta -*-
+
+re_meta = re.compile(r'__(\w+?)__\s*=\s*(.*)')
+re_doc = re.compile(r'^"""(.+?)"""')
 
 
-def read_file(name):
-    return open(os.path.join(os.path.dirname(__file__), name)).read()
+def add_default(m):
+    attr_name, attr_value = m.groups()
+    return ((attr_name, attr_value.strip("\"'")),)
 
 
-readme = read_file('README.rst')
-changes = read_file('CHANGES.rst')
+def add_doc(m):
+    return (('doc', m.groups()[0]),)
+
+pats = {re_meta: add_default,
+        re_doc: add_doc}
+here = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(here, NAME, '__init__.py')) as meta_fh:
+    meta = {}
+    for line in meta_fh:
+        if line.strip() == '# -eof meta-':
+            break
+        for pattern, handler in pats.items():
+            m = pattern.match(line.strip())
+            if m:
+                meta.update(handler(m))
+
+# -*- Installation Requires -*-
 
 
-install_requires = [
-    'requests>=1.2.0',
-    'lxml',
-    'python-dateutil',
-    'M2Crypto>=0.21'
-]
-tests_require = [
-    'nose',
-    'unittest2',
-    'mock',
-]
+def strip_comments(l):
+    return l.split('#', 1)[0].strip()
 
 
-setup(
-    name='ideal',
-    version='.'.join(map(str, ideal.__version__)),
-    license='MIT',
+def _pip_requirement(req):
+    if req.startswith('-r '):
+        _, path = req.split()
+        return reqs(*path.split('/'))
+    return [req]
 
-    # Packaging.
-    packages=find_packages(exclude=('tests', 'tests.*')),
-    install_requires=install_requires,
-    dependency_links=[],
-    tests_require=tests_require,
-    include_package_data=True,
-    zip_safe=False,
 
-    # Metadata for PyPI.
-    description='Python iDEAL v3.3.1+ implementation.',
-    long_description='\n\n'.join([readme, changes]),
-    author='Maykin Media, Joeri Bekker',
-    author_email='joeri@maykinmedia.nl',
+def _reqs(*f):
+    return [
+        _pip_requirement(r) for r in (
+            strip_comments(l) for l in open(
+                os.path.join(os.getcwd(), 'requirements', *f)).readlines()
+        ) if r]
+
+
+def reqs(*f):
+    return [req for subreq in _reqs(*f) for req in subreq]
+
+# -*- Long Description -*-
+
+if os.path.exists('README.rst'):
+    long_description = codecs.open('README.rst', 'r', 'utf-8').read()
+else:
+    long_description = 'See http://pypi.python.org/pypi/%s' % (NAME,)
+
+# -*- %%% -*-
+
+
+class pytest(setuptools.command.test.test):
+    user_options = [('pytest-args=', 'a', 'Arguments to pass to py.test')]
+
+    def initialize_options(self):
+        setuptools.command.test.test.initialize_options(self)
+        self.pytest_args = []
+
+    def run_tests(self):
+        import pytest
+        sys.exit(pytest.main(self.pytest_args))
+
+
+setuptools.setup(
+    name=NAME,
+    packages=setuptools.find_packages(exclude=['tests', 'tests.*']),
+    version=meta['version'],
+    description=meta['doc'],
+    long_description=long_description,
+    keywords='python ideal django',
+    author=meta['author'],
+    author_email=meta['contact'],
+    url=meta['homepage'],
     platforms=['any'],
-    url='http://github.com/maykinmedia/python-ideal',
-    classifiers=[
-        'Development Status :: 4 - Beta',
-        'Intended Audience :: Developers',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Topic :: Software Development',
-    ],
+    license='MIT',
+    classifiers=classifiers,
+    install_requires=reqs('default.txt'),
+    tests_require=reqs('test.txt'),
+    cmdclass={'test': pytest},
+    zip_safe=False,
+    include_package_data=True,
 )

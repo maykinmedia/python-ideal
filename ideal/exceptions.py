@@ -1,5 +1,6 @@
-from ideal.utils import IDEAL_NAMESPACES
 from lxml.etree import QName
+
+from ideal.utils import IDEAL_NAMESPACES
 
 
 class IdealException(Exception):

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><AcquirerTrxRes xmlns="http://www.idealdesk.com/ideal/messages/mer-acq/3.3.1" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" version="3.3.1">
+    <createDateTimestamp>2013-08-14T14:39:06.868Z</createDateTimestamp>
+    <Acquirer>
+        <acquirerID>0050</acquirerID>
+    </Acquirer>
+    <Issuer>
+        <issuerAuthenticationURL>https://idealtest.secure-ing.com/ideal/issuerSim.do?trxid=0123456789&amp;ideal=prob</issuerAuthenticationURL>
+    </Issuer>
+    <Transaction>
+        <transactionID>0123456789</transactionID>
+        <transactionCreateDateTimestamp>2013-08-14T14:39:06.868Z</transactionCreateDateTimestamp>
+        <purchaseID>test</purchaseID>
+    </Transaction>
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><DigestValue>Ql/0j4aJYiwuiazSkgqCmoK3+RBuw5cokPc7VWSl8Q4=</DigestValue></Reference></SignedInfo><SignatureValue>U73OL/OaxSbGdvcg2MQqClcieL7hVqYcdZXcU0DKd6gXLlEn4/RjwqIYqB2kytG0oxjY2sIRwfuk
+Ci1/6DkPg6uoqT1Du1vI2x//E3Kr3ogABOw8AmG3SDQtKnsvnzjOUvrH+lgVJ/XzxyGzUKAaPfUo
+wmQXoLPywa+ULdeP64S6VAShs1BT2V4cndCQxXFXpkDxoJQIIv4e7BGlyy3HV3/TcxszsGzv5fTA
+6Txnu2JFf/7s9cmzkMzwUmy4/QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBoWD6YR6m8EV/+hQM8
+MgN+5b6Kz80sLlTc6JwreNhyxu+/LUg2osjLiQ==</SignatureValue><KeyInfo><KeyName>132df198e31e4443e228da75c9299dded61aef10</KeyName></KeyInfo></Signature></AcquirerTrxRes>

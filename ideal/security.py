@@ -5,8 +5,9 @@ import re
 from io import BytesIO
 
 import M2Crypto
-from ideal.utils import IDEAL_NAMESPACES, render_to_string
 from lxml import etree
+
+from ideal.utils import IDEAL_NAMESPACES, render_to_string
 
 logger = logging.getLogger(__name__)
 
@@ -57,6 +58,12 @@ class Security(object):
 
         if type(signed_info) == unicode:
             signed_info = signed_info.encode('utf-8')
+
+        if type(private_key) == unicode:
+            private_key = private_key.encode('utf-8')
+
+        if type(password) == unicode:
+            password = password.encode('utf-8')
 
         signed_info_tree = etree.parse(BytesIO(signed_info))
         f = BytesIO()
@@ -155,7 +162,6 @@ class Security(object):
             # Match the given XML signature's fingerprint (KeyName) with the fingerprints of one of the installed
             # certificates.
             if key_name.lower() == self.get_fingerprint(cert_file):
-
                 # Verify signature.
                 certificate = M2Crypto.X509.load_cert(cert_file)
                 public_key = certificate.get_pubkey()

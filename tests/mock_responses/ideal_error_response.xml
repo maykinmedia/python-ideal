@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><AcquirerErrorRes xmlns="http://www.idealdesk.com/ideal/messages/mer-acq/3.3.1" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" version="3.3.1">
+    <createDateTimestamp>2013-08-12T16:10:08.329Z</createDateTimestamp>
+    <Error>
+        <errorCode>IX1100</errorCode>
+        <errorMessage>Received XML not valid</errorMessage>
+        <errorDetail>Field generating error: boo</errorDetail>
+        <suggestedAction>Please try again later or pay using another payment method.</suggestedAction>
+        <consumerMessage>Betalen met iDEAL is nu niet mogelijk. Probeer het later nogmaals of betaal op een andere manier.</consumerMessage>
+    </Error>
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><DigestValue>74nSP405vjQiOWF/v9xOWdgCUubascvecUUB8FmKEpo=</DigestValue></Reference></SignedInfo><SignatureValue>U73OL/OaxSbGdvcg2MQqClcieL7hVqYcdZXcU0DKd6gXLlEn4/RjwqIYqB2kytG0oxjY2sIRwfuk
+Ci1/6DkPg6uoqT1Du1vI2x//E3Kr3ogABOw8AmG3SDQtKnsvnzjOUvrH+lgVJ/XzxyGzUKAaPfUo
+wmQXoLPywa+ULdeP64S6VAShs1BT2V4cndCQxXFXpkDxoJQIIv4e7BGlyy3HV3/TcxszsGzv5fTA
+6Txnu2JFf/7s9cmzkMzwUmy4/QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBoWD6YR6m8EV/+hQM8
+MgN+5b6Kz80sLlTc6JwreNhyxu+/LUg2osjLiQ==</SignatureValue><KeyInfo><KeyName>132df198e31e4443e228da75c9299dded61aef10</KeyName></KeyInfo></Signature></AcquirerErrorRes>

@@ -1,0 +1,21 @@
+# http://editorconfig.org
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+insert_final_newline = true
+charset = utf-8
+end_of_line = lf
+
+[*.py]
+# isort plugin configuration
+known_first_party = ideal
+known_third_party = django
+default_section = THIRDPARTY
+skip = .eggs
+
+[Makefile]
+indent_style = tab
