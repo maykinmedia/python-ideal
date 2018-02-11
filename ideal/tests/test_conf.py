@@ -1,6 +1,6 @@
-#-*- encoding: utf8 -*-
-import tempfile
+# -*- encoding: utf8 -*-
 import os
+import tempfile
 
 from unittest2 import TestCase
 
@@ -45,8 +45,8 @@ class ConfTests(TestCase):
 
     def _test_settings(self, settings, **kwargs):
         """
-        Performs tests to check if the provided ``settings`` object contains the values as provided as ``kwargs``. If an
-        option is not provided in the ``kwargs``, the default is checked.
+        Performs tests to check if the provided ``settings`` object contains the values as provided as ``kwargs``. If
+        an option is not provided in the ``kwargs``, the default is checked.
 
         :param settings: The :class:`Settings` object.
         :param kwargs: List of keyword arguments where they key is the config option, and the value the config value.
@@ -66,7 +66,7 @@ class ConfTests(TestCase):
             'PRIVATE_KEY_PASSWORD': '',
             'SUB_ID': '0',
         }
-        
+
         for k, v in kwargs.items():
             option = k.upper()
 
@@ -82,10 +82,11 @@ class ConfTests(TestCase):
         """
         settings = Settings()
 
-        self.assertListEqual(settings.options(), ['ACQUIRER', 'ACQUIRER_URL', 'CERTIFICATES', 'DEBUG',
-                                                  'EXPIRATION_PERIOD', 'LANGUAGE', 'MERCHANT_ID', 'MERCHANT_RETURN_URL',
-                                                  'PRIVATE_CERTIFICATE', 'PRIVATE_KEY_FILE', 'PRIVATE_KEY_PASSWORD',
-                                                  'SUB_ID'])
+        self.assertListEqual(settings.options(), [
+            'ACQUIRER', 'ACQUIRER_URL', 'CERTIFICATES', 'DEBUG',
+            'EXPIRATION_PERIOD', 'LANGUAGE', 'MERCHANT_ID', 'MERCHANT_RETURN_URL',
+            'PRIVATE_CERTIFICATE', 'PRIVATE_KEY_FILE', 'PRIVATE_KEY_PASSWORD',
+            'SUB_ID'])
 
         self._test_settings(settings)
 
@@ -110,7 +111,7 @@ class ConfTests(TestCase):
             'merchant_return_url': 'https://www.example.com/ideal/callback/',
             'acquirer': 'ING',
         }
-        
+
         config_filepath = self._create_config_file(**config)
 
         settings = Settings()

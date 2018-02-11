@@ -1,11 +1,11 @@
 from django import forms
+from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from django.core.urlresolvers import reverse
 
-from ideal.conf import settings
 from ideal.client import IdealClient
-from ideal.exceptions import IdealException, IdealConfigurationException
+from ideal.conf import settings
+from ideal.exceptions import IdealConfigurationException, IdealException
 
 
 class IdealViewMixin(object):
@@ -21,6 +21,7 @@ class IdealViewMixin(object):
             'settings': settings,
             'acquirer_url': settings.get_acquirer_url(),
         }
+
 
 class IdealFormMixin(object):
     error_css_class = 'error'
@@ -83,7 +84,8 @@ class GetIssuersView(FormView, IdealViewMixin):
         except IdealException, e:
             error_message = e.message
 
-        return self.render_to_response(self.get_context_data(form=form, response=response, error_message=error_message))
+        return self.render_to_response(
+            self.get_context_data(form=form, response=response, error_message=error_message))
 
 
 class StartTransactionForm(forms.Form, IdealFormMixin):
@@ -136,7 +138,8 @@ class StartTransactionView(FormView, IdealViewMixin):
         except IdealException, e:
             error_message = e.message
 
-        return self.render_to_response(self.get_context_data(form=form, response=response, error_message=error_message))
+        return self.render_to_response(
+            self.get_context_data(form=form, response=response, error_message=error_message))
 
 
 class GetTransactionStatusForm(forms.Form, IdealFormMixin):
@@ -170,4 +173,5 @@ class GetTransactionStatusView(FormView, IdealViewMixin):
         except IdealException, e:
             error_message = e.message
 
-        return self.render_to_response(self.get_context_data(form=form, response=response, error_message=error_message))
+        return self.render_to_response(
+            self.get_context_data(form=form, response=response, error_message=error_message))

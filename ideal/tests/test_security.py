@@ -1,4 +1,4 @@
-#-*- encoding: utf8 -*-
+# -*- encoding: utf8 -*-
 import os
 
 from unittest2 import TestCase
@@ -89,7 +89,8 @@ FkOnJZt7BfQbMQ5goqbqdL3UI+U98bj/1/PTVDxYBvyK26YltX6X3tNB1ovI61BdxMXD/P35mvIq
             msg_closing=unsigned_msg_closing
         )
 
-        signed_message = self.security.sign_message(self.unsigned_message, self.cert_filepath, self.priv_filepath, 'example')
+        signed_message = self.security.sign_message(
+            self.unsigned_message, self.cert_filepath, self.priv_filepath, 'example')
 
         self.assertEqual(expected_signed_message, signed_message)
 
@@ -97,7 +98,8 @@ FkOnJZt7BfQbMQ5goqbqdL3UI+U98bj/1/PTVDxYBvyK26YltX6X3tNB1ovI61BdxMXD/P35mvIq
         """
         Test verify a signed message.
         """
-        signed_message = self.security.sign_message(self.unsigned_message, self.cert_filepath, self.priv_filepath, 'example')
+        signed_message = self.security.sign_message(
+            self.unsigned_message, self.cert_filepath, self.priv_filepath, 'example')
 
         # NOTE: Normally, you would want to verify if a response came from the acquirer (ie. ideal_v3.cer) but for
         # testing we simply use our own dummy certificate.

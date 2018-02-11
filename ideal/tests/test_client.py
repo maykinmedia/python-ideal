@@ -1,14 +1,14 @@
-#-*- encoding: utf8 -*-
-from ideal.exceptions import IdealResponseException
-import os
+# -*- encoding: utf8 -*-
 import datetime
-import dateutil.tz
+import os
 from decimal import Decimal
 
 import mock
 from unittest2 import TestCase
 
+import dateutil.tz
 from ideal.client import IdealClient
+from ideal.exceptions import IdealResponseException
 
 
 class MockIdealClient(IdealClient):
@@ -133,10 +133,12 @@ class ClientTests(TestCase):
         self.assertEqual(response.amount, Decimal('100.00'))
         self.assertEqual(response.consumer_bic, 'INGBNL2A')
         self.assertEqual(response.consumer_iban, 'NL53INGB0654422370')
-        self.assertEqual(response.consumer_name, u'Hr E G H Küppers en/of Mw M J Küppers an nog een lange consumername')
-        self.assertEqual(response.currency , 'EUR')
+        self.assertEqual(
+            response.consumer_name, u'Hr E G H Küppers en/of Mw M J Küppers an nog een lange consumername')
+        self.assertEqual(response.currency, 'EUR')
         self.assertEqual(response.status, 'Success')
-        self.assertEqual(response.status_date_timestamp, datetime.datetime(2013,8,7,11,50,28,348000, dateutil.tz.tzutc()))
+        self.assertEqual(
+            response.status_date_timestamp, datetime.datetime(2013, 8, 7, 11, 50, 28, 348000, dateutil.tz.tzutc()))
         self.assertEqual(response.transaction_id, '0123456789')
 
     def test_error(self):

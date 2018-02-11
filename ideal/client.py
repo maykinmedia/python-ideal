@@ -1,20 +1,19 @@
 import datetime
 import hashlib
-import uuid
 import logging
+import uuid
 from decimal import Decimal
 from io import BytesIO
 
-from lxml import etree
-from lxml.etree import XMLSyntaxError, QName
-import dateutil.parser
 import requests
 
+import dateutil.parser
+from ideal.conf import settings
 from ideal.exceptions import IdealResponseException, IdealSecurityException, IdealServerException
 from ideal.security import Security
-from ideal.utils import render_to_string, IDEAL_NAMESPACES, convert_camelcase
-from ideal.conf import settings
-
+from ideal.utils import IDEAL_NAMESPACES, convert_camelcase, render_to_string
+from lxml import etree
+from lxml.etree import QName, XMLSyntaxError
 
 logger = logging.getLogger(__name__)
 
@@ -122,8 +121,8 @@ class DirectoryResponse(IdealResponse):
     _issuers = None
 
     def _parse(self, xml):
-        self.acquirer_id = xml.xpath('ideal:Acquirer/ideal:acquirerID',
-                namespaces=IDEAL_NAMESPACES)[0].text
+        self.acquirer_id = xml.xpath(
+            'ideal:Acquirer/ideal:acquirerID', namespaces=IDEAL_NAMESPACES)[0].text
 
         result = {}
 
@@ -174,14 +173,14 @@ class TransactionResponse(IdealResponse):
     entrance_code = None
 
     def _parse(self, xml):
-        self.acquirer_id = xml.xpath('ideal:Acquirer/ideal:acquirerID',
-                namespaces=IDEAL_NAMESPACES)[0].text
+        self.acquirer_id = xml.xpath(
+            'ideal:Acquirer/ideal:acquirerID', namespaces=IDEAL_NAMESPACES)[0].text
 
-        self.issuer_authentication_url = xml.xpath('ideal:Issuer/ideal:issuerAuthenticationURL',
-                namespaces=IDEAL_NAMESPACES)[0].text
+        self.issuer_authentication_url = xml.xpath(
+            'ideal:Issuer/ideal:issuerAuthenticationURL', namespaces=IDEAL_NAMESPACES)[0].text
 
-        self.transaction_id = xml.xpath('ideal:Transaction/ideal:transactionID',
-                namespaces=IDEAL_NAMESPACES)[0].text
+        self.transaction_id = xml.xpath(
+            'ideal:Transaction/ideal:transactionID', namespaces=IDEAL_NAMESPACES)[0].text
 
 
 class StatusResponse(IdealResponse):
@@ -198,8 +197,8 @@ class StatusResponse(IdealResponse):
 
     def _parse(self, xml):
 
-        self.acquirer_id = xml.xpath('ideal:Acquirer/ideal:acquirerID',
-                namespaces=IDEAL_NAMESPACES)[0].text
+        self.acquirer_id = xml.xpath(
+            'ideal:Acquirer/ideal:acquirerID', namespaces=IDEAL_NAMESPACES)[0].text
 
         for transaction_node in xml.xpath('ideal:Transaction/*', namespaces=IDEAL_NAMESPACES):
             attr = convert_camelcase(QName(transaction_node).localname)
@@ -254,8 +253,8 @@ class IdealClient(object):
 
         :return: A :class:`HttpRequest` object.
         """
-        body = self.security.sign_message(body, settings.PRIVATE_CERTIFICATE, settings.PRIVATE_KEY_FILE,
-              settings.PRIVATE_KEY_PASSWORD)
+        body = self.security.sign_message(
+            body, settings.PRIVATE_CERTIFICATE, settings.PRIVATE_KEY_FILE, settings.PRIVATE_KEY_PASSWORD)
 
         if body and not body.startswith('<?'):
             body = '<?xml version="1.0" encoding="utf-8"?>' + body
@@ -366,8 +365,8 @@ class IdealClient(object):
         Send an "AcquirerTrxReq" to iDEAL, starting the payment process.
 
         The returned named tuple can be used to store the transaction details but should always be used to redirect the
-        customer to their bank's website by using the ``issuer_authentication_url``. The generated ``entrance_code`` can
-        be used to resume an incomplete transaction process.
+        customer to their bank's website by using the ``issuer_authentication_url``. The generated ``entrance_code``
+        can be used to resume an incomplete transaction process.
 
         :param issuer_id: The BIC code of the customer's bank. Usually retrieved with ``IdealClient.get_issuers``.
         :param purchase_id: Any string with a maximum of 16 characters to identify the purchase.

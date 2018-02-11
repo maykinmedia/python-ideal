@@ -1,5 +1,5 @@
-import os
 import ConfigParser
+import os
 
 from ideal.exceptions import IdealConfigurationException
 
@@ -9,7 +9,7 @@ class Settings(object):
     PRIVATE_KEY_FILE = 'priv.pem'
     PRIVATE_KEY_PASSWORD = ''
     PRIVATE_CERTIFICATE = 'cert.cer'
-    CERTIFICATES = ['ideal_v3.cer',]
+    CERTIFICATES = ['ideal_v3.cer', ]
     MERCHANT_ID = ''
     SUB_ID = '0'
 
@@ -44,7 +44,8 @@ class Settings(object):
         Return the acquirer URL, depending on the ``vendor`` and whether it should be the ``test`` environment or not.
 
         :param acquirer: Name of the acquirer.
-        :param test: ``True`` if the test environment should be used, ``False`` otherwise. Default\: ``settings.DEBUG``.
+        :param test: ``True`` if the test environment should be used, ``False`` otherwise. Default\:
+                     ``settings.DEBUG``.
 
         :return: The URL of the acquirer's iDEAL environment.
         """

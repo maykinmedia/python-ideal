@@ -1,6 +1,5 @@
-from lxml.etree import QName
-
 from ideal.utils import IDEAL_NAMESPACES
+from lxml.etree import QName
 
 
 class IdealException(Exception):
@@ -29,7 +28,7 @@ class IdealResponseException(IdealException):
     def __init__(self, xml_document):
 
         self._xml_document = xml_document
-        
+
         mapping = {
             'errorCode': 'error_code',
             'errorMessage': 'error_message',
@@ -47,5 +46,6 @@ class IdealResponseException(IdealException):
     def message(self):
         return '{code}: {message} ({detail}).'.format(code=self.error_code, message=self.error_message,
                                                       detail=self.error_detail)
+
     def __str__(self):
         return self.message
