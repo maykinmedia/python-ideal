@@ -198,10 +198,10 @@ Django
 .. |coverage| image:: https://codecov.io/github/maykinmedia/python-ideal/coverage.svg?branch=master
     :target: https://codecov.io/github/maykinmedia/python-ideal?branch=master
 
-.. |license| image:: https://img.shields.io/pypi/l/python-ideal.svg
+.. |license| image:: https://img.shields.io/pypi/l/ideal.svg
     :alt: MIT License
     :target: https://opensource.org/licenses/MIT
 
-.. |pyversion| image:: https://img.shields.io/pypi/pyversions/python-ideal.svg
+.. |pyversion| image:: https://img.shields.io/pypi/pyversions/ideal.svg
     :alt: Supported Python versions
     :target: http://pypi.python.org/pypi/python-ideal/
