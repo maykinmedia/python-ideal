@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Python iDEAL"""
+"""Implementation of the iDEAL v3.1.1 specification in Python."""
 # :copyright: (c) 2013-2018, Maykin Media B.V.
 #             All rights reserved.
 # :license:   MIT, see LICENSE for more details.

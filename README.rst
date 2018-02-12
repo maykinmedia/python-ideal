@@ -3,11 +3,11 @@ Python iDEAL
 ============
 
 :Version: 0.1.1
-:Download: https://pypi.python.org/pypi/python-ideal
+:Download: https://pypi.python.org/pypi/ideal
 :Source: https://github.com/maykinmedia/python-ideal
 :Keywords: python, ideal, django
 
-|build-status| |coverage| |lintly| |license| |pyversion|
+|build-status| |coverage| |license| |pyversion|
 
 About
 =====
@@ -194,10 +194,6 @@ Django
 
 .. |coverage| image:: https://codecov.io/github/maykinmedia/python-ideal/coverage.svg?branch=master
     :target: https://codecov.io/github/maykinmedia/python-ideal?branch=master
-
-.. |lintly| image:: https://lintly.com/gh/maykinmedia/python-ideal/badge.svg
-    :target: https://lintly.com/gh/maykinmedia/python-ideal/
-    :alt: Lintly
 
 .. |license| image:: https://img.shields.io/pypi/l/python-ideal.svg
     :alt: MIT License
