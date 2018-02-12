@@ -43,10 +43,8 @@ classes = """
     Programming Language :: Python :: 2.7
     Programming Language :: Python :: Implementation :: CPython
     Framework :: Django
-    Framework :: Django :: 1.6
-    Framework :: Django :: 1.7
     Framework :: Django :: 1.8
-    Framework :: Django :: 1.9
+    Framework :: Django :: 1.11
     Operating System :: OS Independent
     Topic :: Communications
     Topic :: System :: Distributed Computing
