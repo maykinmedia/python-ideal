@@ -1,19 +1,46 @@
+============
 Python iDEAL
 ============
 
+:Version: 0.1.1
+:Download: https://pypi.python.org/pypi/python-ideal
+:Source: https://github.com/maykinmedia/python-ideal
+:Keywords: python, ideal, django
+
+|build-status| |coverage| |lintly| |license| |pyversion|
+
+About
+=====
+
 Implementation of the iDEAL v3.1.1 specification in Python.
 
-Quick start
-===========
+Installation
+============
+
+You can install `python_ideal` either via the Python Package Index
+(PyPI) or from source.
+
+To install using ``pip``:
+
+.. code-block:: console
+
+    $ pip install -U python_ideal
+
+Usage
+=====
 
 It is assumed you have already requested access at your bank for iDEAL.
 
-1. Install this library in your virtual environment.
+#. Install the `python_ideal` library:
 
-2. Generate or locate your certificates (``cert.cer``, and ``priv.pem``) and your bank's public certificate
+   .. code-block:: console
+
+      $ pip install django_dbcache_fields
+
+#. Generate or locate your certificates (``cert.cer``, and ``priv.pem``) and your bank's public certificate
    (``ideal_v3.cer``), and place them in a folder where your web application can access them.
 
-3. Create a config file called ``ideal.cfg`` (or copy and modify the ``ideal-example.cfg``)::
+#. Create a config file called ``ideal.cfg`` (or copy and modify the ``ideal-example.cfg``)::
 
     [ideal]
     debug = 1
@@ -26,7 +53,9 @@ It is assumed you have already requested access at your bank for iDEAL.
     merchant_return_url = https://www.example.com/ideal/callback/
     acquirer = ING
 
-4. In Python, make sure your settings are initialized by loading the config file::
+4. In Python, make sure your settings are initialized by loading the config file:
+
+   .. code-block:: python
 
     from ideal.conf import settings
     settings.load('ideal.cfg')
@@ -34,7 +63,9 @@ It is assumed you have already requested access at your bank for iDEAL.
     # You may adjust (or completely define) your settings (capitalized) in Python as well
     settings.DEBUG = True
 
-5. After your settings are loaded, you can communicate with iDEAL::
+5. After your settings are loaded, you can communicate with iDEAL:
+
+   .. code-block:: python
 
     from ideal.client import IdealClient
     ideal = IdealClient()
@@ -45,6 +76,8 @@ It is assumed you have already requested access at your bank for iDEAL.
 
 Settings
 ========
+
+These settings are lower-case and stored in your ``ideal.cfg`` file.
 
 *DEBUG* (``boolean``)
     Uses the test URL of the acquirer if set to ``True``, otherwise the production URL is used (default: ``True``).
@@ -86,9 +119,11 @@ Settings
 Testing
 =======
 
-To run all unit tests, download the entire package and run::
+To run all unit tests, download the entire package and run:
 
-    python setup.py tests --test-suite ideal.tests
+.. code-block:: console
+
+    $ python setup.py test
 
 
 Contrib
@@ -109,7 +144,9 @@ Django
 
 5. You should create a view to handle the iDEAL callback and add the URL (as defined in your settings as
    ``MERCHANT_RETURN_URL``) to your ``urls.py``. Below, you'll find an example view to redirect the use depending on the
-   transaction status::
+   transaction status:
+
+   .. code-block:: python
 
     from django.views.generic.base import RedirectView
     from ideal.client import IdealClient
@@ -138,7 +175,9 @@ Django
             return '<payment failed url>'
 
 6. Optionally, you can add the the following to your main ``urls.py`` to test your configuration and perform all iDEAL
-   operations via a web interface::
+   operations via a web interface:
+
+   .. code-block:: python
 
     if settings.DEBUG:
         urlpatterns += patterns('',
@@ -147,3 +186,23 @@ Django
 
 7. If you are in DEBUG mode and use ``runserver``, you can point your browser to:
    ``http://localhost:8000/ideal/tests/``.
+
+
+.. |build-status| image:: https://secure.travis-ci.org/maykinmedia/python-ideal.svg?branch=master
+    :alt: Build status
+    :target: https://travis-ci.org/maykinmedia/python-ideal
+
+.. |coverage| image:: https://codecov.io/github/maykinmedia/python-ideal/coverage.svg?branch=master
+    :target: https://codecov.io/github/maykinmedia/python-ideal?branch=master
+
+.. |lintly| image:: https://lintly.com/gh/maykinmedia/python-ideal/badge.svg
+    :target: https://lintly.com/gh/maykinmedia/python-ideal/
+    :alt: Lintly
+
+.. |license| image:: https://img.shields.io/pypi/l/python-ideal.svg
+    :alt: MIT License
+    :target: https://opensource.org/licenses/MIT
+
+.. |pyversion| image:: https://img.shields.io/pypi/pyversions/python-ideal.svg
+    :alt: Supported Python versions
+    :target: http://pypi.python.org/pypi/python-ideal/

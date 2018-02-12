@@ -1,6 +1,6 @@
 from optparse import make_option
 
-from django.core.management.base import NoArgsCommand, CommandError
+from django.core.management.base import NoArgsCommand
 
 from ideal.client import IdealClient
 from ideal.contrib.django.ideal_compat.models import Issuer
@@ -9,7 +9,7 @@ from ideal.contrib.django.ideal_compat.models import Issuer
 class Command(NoArgsCommand):
     option_list = NoArgsCommand.option_list + (
         make_option('--dry-run', action='store_true', dest='dry_run',
-                help='Performs the command but does not update the database.'),
+                    help='Performs the command but does not update the database.'),
     )
     help = 'Synchronizes iDEAL issuers with your local database.'
 
@@ -66,9 +66,11 @@ class Command(NoArgsCommand):
                 deactivate_count += 1
 
         if verbosity >= 1:
-            self.stdout.write('Issuers: {created} created, {updated} updated, {deactivated} deactivated{dry_run}'.format(
-                created=create_count,
-                updated=update_count,
-                deactivated=deactivate_count,
-                dry_run=' (dry-run)' if dry_run else '',
-            ))
+            self.stdout.write(
+                'Issuers: {created} created, {updated} updated, {deactivated} deactivated{dry_run}'.format(
+                    created=create_count,
+                    updated=update_count,
+                    deactivated=deactivate_count,
+                    dry_run=' (dry-run)' if dry_run else '',
+                )
+            )

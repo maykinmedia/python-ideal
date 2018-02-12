@@ -1,15 +1,13 @@
-import re
-import os
-import hashlib
 import base64
+import hashlib
 import logging
+import re
 from io import BytesIO
 
 import M2Crypto
 from lxml import etree
 
-from ideal.utils import render_to_string, IDEAL_NAMESPACES
-
+from ideal.utils import IDEAL_NAMESPACES, render_to_string
 
 logger = logging.getLogger(__name__)
 
@@ -48,8 +46,8 @@ class Security(object):
 
     def get_signature(self, signed_info, private_key, password):
         """
-        Return a signature for the ``signed_info`` string, using provided ``private_key`` and ``password`` to unlock the
-        private key.
+        Return a signature for the ``signed_info`` string, using provided ``private_key`` and ``password`` to unlock
+        the private key.
 
         :param signed_info: The XML snippet containing only the signed info part as string.
         :param private_key: File path to the Merchant's private key file.
@@ -60,6 +58,12 @@ class Security(object):
 
         if type(signed_info) == unicode:
             signed_info = signed_info.encode('utf-8')
+
+        if type(private_key) == unicode:
+            private_key = private_key.encode('utf-8')
+
+        if type(password) == unicode:
+            password = password.encode('utf-8')
 
         signed_info_tree = etree.parse(BytesIO(signed_info))
         f = BytesIO()
@@ -121,26 +125,26 @@ class Security(object):
         signed_info = signature.xpath('xmldsig:SignedInfo', namespaces=IDEAL_NAMESPACES)[0]
 
         # Remove the signature, strip the XML header and strip trailing newlines.
-        unsigned_xml = re.sub(re.compile('<\?.*\?>\n?|<Signature.*</Signature>', flags=re.DOTALL), '', xml_document).rstrip('\n')
+        unsigned_xml = re.sub(
+            re.compile('<\?.*\?>\n?|<Signature.*</Signature>', flags=re.DOTALL), '', xml_document).rstrip('\n')
 
-        digest_method = signed_info.xpath('xmldsig:Reference/xmldsig:DigestMethod',
-                namespaces=IDEAL_NAMESPACES)[0].get('Algorithm')
+        digest_method = signed_info.xpath(
+            'xmldsig:Reference/xmldsig:DigestMethod', namespaces=IDEAL_NAMESPACES)[0].get('Algorithm')
 
-        digest_value = signed_info.xpath('xmldsig:Reference/xmldsig:DigestValue',
-                namespaces=IDEAL_NAMESPACES)[0].text
+        digest_value = signed_info.xpath(
+            'xmldsig:Reference/xmldsig:DigestValue', namespaces=IDEAL_NAMESPACES)[0].text
 
         # Verify message digest: Signature should be about the unsigned XML.
         if digest_value != self.get_message_digest(unsigned_xml, digest_method):
             return False
 
         # Get signature properties.
-        c14n_method = signed_info.xpath('xmldsig:CanonicalizationMethod',
-                namespaces=IDEAL_NAMESPACES)[0].get('Algorithm')
-        signature_method = signed_info.xpath('xmldsig:SignatureMethod',
-                namespaces=IDEAL_NAMESPACES)[0].get('Algorithm')
-        transforms = [el.get('Algorithm') for el in
-                signed_info.xpath('xmldsig:Reference/xmldsig:Transforms/xmldsig:Transform',
-                namespaces=IDEAL_NAMESPACES)]
+        c14n_method = signed_info.xpath(
+            'xmldsig:CanonicalizationMethod', namespaces=IDEAL_NAMESPACES)[0].get('Algorithm')
+        # signature_method = signed_info.xpath(
+        #     'xmldsig:SignatureMethod', namespaces=IDEAL_NAMESPACES)[0].get('Algorithm')
+        # transforms = [el.get('Algorithm') for el in signed_info.xpath(
+        #     'xmldsig:Reference/xmldsig:Transforms/xmldsig:Transform', namespaces=IDEAL_NAMESPACES)]
 
         signature_value = signature.xpath('xmldsig:SignatureValue', namespaces=IDEAL_NAMESPACES)[0].text
         key_name = signature.xpath('xmldsig:KeyInfo/xmldsig:KeyName', namespaces=IDEAL_NAMESPACES)[0].text
@@ -158,7 +162,6 @@ class Security(object):
             # Match the given XML signature's fingerprint (KeyName) with the fingerprints of one of the installed
             # certificates.
             if key_name.lower() == self.get_fingerprint(cert_file):
-
                 # Verify signature.
                 certificate = M2Crypto.X509.load_cert(cert_file)
                 public_key = certificate.get_pubkey()

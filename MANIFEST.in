@@ -1,2 +1,16 @@
-include setup.py README.rst MANIFEST.in LICENSE CHANGES.rst
+include .coveragerc
+include .editorconfig
+include LICENSE
+include README.rst
+include MANIFEST.in
+include Makefile
+include setup.cfg
+include setup.py
+include tox.ini
 recursive-include ideal *.html *.gif *.xml
+recursive-include docs *
+recursive-include requirements *.txt
+recursive-include tests *.py
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .*.sw*

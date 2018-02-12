@@ -1,5 +1,5 @@
-import re
 import os
+import re
 
 IDEAL_NAMESPACES = {
     'ideal': 'http://www.idealdesk.com/ideal/messages/mer-acq/3.3.1',
