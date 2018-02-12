@@ -1,5 +1,4 @@
 {% extends "ideal/tests/base.html" %}
-{% load url from future %}
 
 {% block extra_title %} - Function: get_transaction_status{% endblock %}
 
@@ -32,7 +31,7 @@
     {% if response %}
 
         <h3>Response</h3>
-        <table class="table table-bordered">
+        <table id="response" class="table table-bordered">
             <tbody>
                 <tr>
                     <th>Acquirer ID:</th>

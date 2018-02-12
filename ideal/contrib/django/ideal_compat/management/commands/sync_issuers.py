@@ -1,19 +1,22 @@
-from optparse import make_option
-
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import BaseCommand
 
 from ideal.client import IdealClient
 from ideal.contrib.django.ideal_compat.models import Issuer
 
 
-class Command(NoArgsCommand):
-    option_list = NoArgsCommand.option_list + (
-        make_option('--dry-run', action='store_true', dest='dry_run',
-                    help='Performs the command but does not update the database.'),
-    )
+class Command(BaseCommand):
     help = 'Synchronizes iDEAL issuers with your local database.'
 
-    def handle_noargs(self, **options):
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--dry-run',
+            action='store_true',
+            dest='dry_run',
+            default=False,
+            help='Performs the command but does not update the database.',
+        )
+
+    def handle(self, *args, **options):
         dry_run = options.get('dry_run', False)
         verbosity = int(options.get('verbosity', 1))
 

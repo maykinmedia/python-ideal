@@ -77,7 +77,8 @@ It is assumed you have already requested access at your bank for iDEAL.
 Settings
 ========
 
-These settings are lower-case and stored in your ``ideal.cfg`` file.
+These settings are lower-case and stored in your ``ideal.cfg`` file (or in Django's ``settings.py``, prefixed with
+``IDEAL_``).
 
 *DEBUG* (``boolean``)
     Uses the test URL of the acquirer if set to ``True``, otherwise the production URL is used (default: ``True``).
@@ -104,7 +105,8 @@ These settings are lower-case and stored in your ``ideal.cfg`` file.
     The callback URL for iDEAL. The customer is redirected to this URL after the payment process at the acquirer.
 
 *EXPIRATION_PERIOD* (``string``)
-    The time a transaction is valid for in ISO 8601 format, minimum is 1 minute, maximum is 1 hour (default: ``PT15M``).
+    The time a transaction is valid for in ISO 8601 format, minimum is 1 minute, maximum is 1 hour
+    (default: ``PT15M``).
 
 *ACQUIRER* (``string``)
     Acquirer code to identify the endpoint. Valid values are: [``ING``, ``RABOBANK``] (default: ``None``).
@@ -132,24 +134,25 @@ Contrib
 Django
 ------
 
-1. All settings can be capitalized and prefixed with ``IDEAL_`` and placed in Django's ``settings.py`` file, rather than
-   using a configuration file. Of course, you may still use the settings file method.
+1. All settings can be capitalized and prefixed with ``IDEAL_`` and placed in Django's ``settings.py`` file, rather
+   than using a configuration file. Of course, you may still use the settings file method.
 
 2. Add ``ideal.contrib.django.ideal_compat`` to your ``INSTALLED_APPS``.
 
-3. Run ``python manage.py syncdb`` (or ``migrate``) to create the ``Issuer`` table in your database, to store a local
+3. Run ``python manage.py migrate`` to create the ``Issuer`` table in your database, to store a local
    copy of all issuers.
 
-4. Run ``python manage.py sync_issuers`` to fill the ``Issuer`` table with a list of issuers.
+4. Run ``python manage.py sync_issuers`` to fill the ``Issuer`` table with a list of issuers.  You should run this
+   command every day or so using a cronjob.
 
 5. You should create a view to handle the iDEAL callback and add the URL (as defined in your settings as
-   ``MERCHANT_RETURN_URL``) to your ``urls.py``. Below, you'll find an example view to redirect the use depending on the
-   transaction status:
+   ``MERCHANT_RETURN_URL``) to your ``urls.py``. Below, you'll find an example view to redirect the use depending on
+   the transaction status:
 
    .. code-block:: python
 
     from django.views.generic.base import RedirectView
-    from ideal.client import IdealClient
+    from ideal.client import IdealClient, TransactionStatus
     from ideal.exceptions import IdealException
 
     class IdealCallbackView(RedirectView):
@@ -180,9 +183,9 @@ Django
    .. code-block:: python
 
     if settings.DEBUG:
-        urlpatterns += patterns('',
-            (r'^ideal/tests/', include('ideal.contrib.django.ideal_compat.test_urls')),
-        )
+        urlpatterns += [
+            url(r'^ideal/tests/', include('ideal.contrib.django.ideal_compat.test_urls')),
+        ]
 
 7. If you are in DEBUG mode and use ``runserver``, you can point your browser to:
    ``http://localhost:8000/ideal/tests/``.
