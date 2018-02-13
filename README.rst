@@ -17,25 +17,25 @@ Implementation of the iDEAL v3.1.1 specification in Python.
 Installation
 ============
 
-You can install `python_ideal` either via the Python Package Index
-(PyPI) or from source.
+You can install `ideal` either via the Python Package Index (PyPI) or from
+source.
 
 To install using ``pip``:
 
 .. code-block:: console
 
-    $ pip install -U python_ideal
+    $ pip install -U ideal
 
 Usage
 =====
 
 It is assumed you have already requested access at your bank for iDEAL.
 
-#. Install the `python_ideal` library:
+#. Install the `ideal` library:
 
    .. code-block:: console
 
-      $ pip install django_dbcache_fields
+      $ pip install ideal
 
 #. Generate or locate your certificates (``cert.cer``, and ``priv.pem``) and your bank's public certificate
    (``ideal_v3.cer``), and place them in a folder where your web application can access them.
