@@ -4,8 +4,8 @@ import logging
 import re
 from io import BytesIO
 
-import M2Crypto
 from lxml import etree
+from OpenSSL import crypto
 
 from ideal.utils import IDEAL_NAMESPACES, render_to_string
 
@@ -21,13 +21,16 @@ class Security(object):
 
         :return: Fingerprint as a string.
         """
-        cert = M2Crypto.X509.load_cert(private_certificate)
-        fingerprint = cert.get_fingerprint('sha1')
+        cert_data = open(private_certificate, "rb").read()
+        cert = crypto.load_certificate(crypto.FILETYPE_PEM, cert_data)
+        sha1_fingerprint = cert.digest("sha1")
 
-        del cert
+        fingerprint = sha1_fingerprint.zfill(40).lower().replace(":", "")
+
+        del cert_data, cert
 
         # Fill the fingerprint with zero's upto 40 chars.
-        return fingerprint.zfill(40).lower()
+        return fingerprint
 
     def get_message_digest(self, msg, digest_method=None):
         """
@@ -70,17 +73,16 @@ class Security(object):
         signed_info_tree.write_c14n(f, exclusive=True)
         signed_info_str = f.getvalue()
 
-        key = M2Crypto.EVP.load_key(private_key, lambda x: password)
-        key.reset_context('sha256')
+        privatekey_data = open(private_key, "r").read()
 
-        key.sign_init()
-        key.sign_update(signed_info_str)
+        pkey = crypto.load_privatekey(
+            crypto.FILETYPE_PEM, privatekey_data, password)
 
-        signature = key.sign_final()
+        sign = crypto.sign(pkey, signed_info_str, "sha256")
 
-        del key
+        del pkey
 
-        return signature.encode('base64').rstrip('\n')
+        return base64.b64encode(sign)
 
     def sign_message(self, msg, private_certificate, private_key, password):
         """
@@ -162,18 +164,20 @@ class Security(object):
             # Match the given XML signature's fingerprint (KeyName) with the fingerprints of one of the installed
             # certificates.
             if key_name.lower() == self.get_fingerprint(cert_file):
-                # Verify signature.
-                certificate = M2Crypto.X509.load_cert(cert_file)
-                public_key = certificate.get_pubkey()
 
-                # TODO: Use the signature (or message digest?) method for verification (currently using sha256).
-                public_key.reset_context(md='sha256')
-                public_key.verify_init()
-                public_key.verify_update(signed_info_str)
+                cert_data = open(cert_file, "rb").read()
+                cert = crypto.load_certificate(crypto.FILETYPE_PEM, cert_data)
 
-                result = public_key.verify_final(signature_value.decode('base64'))
-                del certificate, public_key
+                x509 = crypto.X509()
+                x509.set_pubkey(cert.get_pubkey())
 
-                return result == 1
+                verify = crypto.verify(
+                    x509, base64.b64decode(signature_value),
+                    signed_info_str, 'sha256')
+
+                del cert_data, cert, x509
+
+                # it will return None when it's been verified
+                return verify is None
 
         return False
