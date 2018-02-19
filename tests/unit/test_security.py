@@ -54,11 +54,12 @@ class SecurityTests(TestCase):
             'digest_value': message_digest
         })
 
-        expected_signature = """hmsonk9o7QMUlrVyewEC7+u76I7dy4S4aIuno9/Sj2J7Okfv0XUsGd2Sw7YU7zRy3yKdpHhbtMFt
-QhEsqm/eFBnzd1M+JpdUpAW60vBfa/lQ/RnwX6mBjl3r2vxhUVd3T8BFnnmh5qQ74AjvCYZ6eFXs
-rq4w6b1v+IQZHknC7qQeWX56VDuTv6ezZ4nnAIr2jL//xv3iaOsYRrSK0jRVU6cJyXqhkKEvIQHK
-FkOnJZt7BfQbMQ5goqbqdL3UI+U98bj/1/PTVDxYBvyK26YltX6X3tNB1ovI61BdxMXD/P35mvIq
-2fUJ3IeL0CGw1Epo34na9VtO7+tyIzedfysjUg=="""
+        expected_signature = (
+            """hmsonk9o7QMUlrVyewEC7+u76I7dy4S4aIuno9/Sj2J7Okfv0XUsGd2Sw7YU7zRy3yKdpHhbtMFt"""
+            """QhEsqm/eFBnzd1M+JpdUpAW60vBfa/lQ/RnwX6mBjl3r2vxhUVd3T8BFnnmh5qQ74AjvCYZ6eFXs"""
+            """rq4w6b1v+IQZHknC7qQeWX56VDuTv6ezZ4nnAIr2jL//xv3iaOsYRrSK0jRVU6cJyXqhkKEvIQHK"""
+            """FkOnJZt7BfQbMQ5goqbqdL3UI+U98bj/1/PTVDxYBvyK26YltX6X3tNB1ovI61BdxMXD/P35mvIq"""
+            """2fUJ3IeL0CGw1Epo34na9VtO7+tyIzedfysjUg==""")
 
         signature = self.security.get_signature(signed_info, self.priv_filepath, 'example')
 
