@@ -1,10 +1,11 @@
 from django import forms
-from django.core.urlresolvers import reverse
+
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from ideal.client import IdealClient
 from ideal.conf import settings
+from ideal.contrib.django.ideal_compat.utils import reverse
 from ideal.exceptions import IdealConfigurationException, IdealException
 
 

@@ -4,12 +4,13 @@ from __future__ import unicode_literals
 import os
 
 import mock
+
 from django.core.management import call_command
-from django.core.urlresolvers import reverse
 from django.test import override_settings
 from django_webtest import WebTest
 
 from ideal.contrib.django.ideal_compat.models import Issuer
+from ideal.contrib.django.ideal_compat.utils import reverse
 
 from .helpers import MockIdealClient
 
