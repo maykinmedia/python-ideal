@@ -10,7 +10,7 @@ import re
 
 from collections import namedtuple
 
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 __author__ = 'Joeri Bekker'
 __contact__ = 'joeri@maykinmedia.nl'
 __homepage__ = 'https://github.com/maykinmedia/python-ideal'
