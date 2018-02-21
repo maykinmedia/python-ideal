@@ -106,3 +106,8 @@ class SecurityTests(TestCase):
         # testing we simply use our own dummy certificate.
         result = self.security.verify(signed_message, [self.cert_filepath])
         self.assertTrue(result)
+
+        # The verify method supports unicode/str and bytestrings
+        signed_message = signed_message.encode('utf-8')
+        result = self.security.verify(signed_message, [self.cert_filepath])
+        self.assertTrue(result)

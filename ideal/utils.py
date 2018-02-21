@@ -1,5 +1,6 @@
 import os
 import re
+from io import open
 
 IDEAL_NAMESPACES = {
     'ideal': 'http://www.idealdesk.com/ideal/messages/mer-acq/3.3.1',

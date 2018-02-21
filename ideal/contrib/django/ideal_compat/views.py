@@ -1,10 +1,10 @@
 from django import forms
-from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from ideal.client import IdealClient
 from ideal.conf import settings
+from ideal.contrib.django.ideal_compat.utils import reverse
 from ideal.exceptions import IdealConfigurationException, IdealException
 
 
@@ -40,9 +40,9 @@ class IndexView(TemplateView):
 
         try:
             client = IdealClient()
-        except IdealConfigurationException, e:
+        except IdealConfigurationException as e:
             context.update({
-                'error_message': 'Cannot read configuration: {msg}'.format(msg=e.message)
+                'error_message': 'Cannot read configuration: {msg}'.format(msg=e)
             })
         else:
             if len(settings.PRIVATE_KEY_PASSWORD) > 5:
@@ -81,8 +81,8 @@ class GetIssuersView(FormView, IdealViewMixin):
 
         try:
             response = self.client.get_issuers()
-        except IdealException, e:
-            error_message = e.message
+        except IdealException as e:
+            error_message = e
 
         return self.render_to_response(
             self.get_context_data(form=form, response=response, error_message=error_message))
@@ -135,8 +135,8 @@ class StartTransactionView(FormView, IdealViewMixin):
 
         try:
             response = self.client.start_transaction(**kwargs)
-        except IdealException, e:
-            error_message = e.message
+        except IdealException as e:
+            error_message = e
 
         return self.render_to_response(
             self.get_context_data(form=form, response=response, error_message=error_message))
@@ -170,8 +170,8 @@ class GetTransactionStatusView(FormView, IdealViewMixin):
 
         try:
             response = self.client.get_transaction_status(form.cleaned_data['transaction_id'])
-        except IdealException, e:
-            error_message = e.message
+        except IdealException as e:
+            error_message = e
 
         return self.render_to_response(
             self.get_context_data(form=form, response=response, error_message=error_message))
