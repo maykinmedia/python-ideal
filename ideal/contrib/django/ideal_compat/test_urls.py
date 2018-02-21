@@ -1,7 +1,8 @@
 from django.conf.urls import url
 
-from ideal.contrib.django.ideal_compat.views import (GetIssuersView, GetTransactionStatusView, IndexView,
-                                                     StartTransactionView)
+from ideal.contrib.django.ideal_compat.views import (
+    GetIssuersView, GetTransactionStatusView, IndexView, StartTransactionView
+)
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='ideal_tests_index'),

@@ -1,7 +1,6 @@
 # -*- encoding: utf8 -*-
-from io import open
-
 import os
+from io import open
 
 from ideal.client import IdealClient
 

@@ -1,14 +1,11 @@
 import base64
 import hashlib
-
-from io import BytesIO, open
-
 import logging
 import re
+from io import BytesIO, open
 
-from lxml import etree
 import six
-
+from lxml import etree
 from OpenSSL import crypto
 
 from ideal.utils import IDEAL_NAMESPACES, render_to_string

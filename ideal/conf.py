@@ -1,4 +1,5 @@
 import os
+
 import six
 
 from ideal.exceptions import IdealConfigurationException

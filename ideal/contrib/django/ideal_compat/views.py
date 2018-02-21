@@ -1,5 +1,4 @@
 from django import forms
-
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
