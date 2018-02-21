@@ -12,7 +12,7 @@ Python iDEAL
 About
 =====
 
-Implementation of the iDEAL v3.1.1 specification in Python.
+Implementation of the iDEAL v3.3.1 specification in Python.
 
 Installation
 ============
@@ -37,8 +37,8 @@ It is assumed you have already requested access at your bank for iDEAL.
 
       $ pip install ideal
 
-#. Generate or locate your certificates (``cert.cer``, and ``priv.pem``) and your bank's public certificate
-   (``ideal_v3.cer``), and place them in a folder where your web application can access them.
+#. Generate or locate your certificates (``cert.cer``, and ``priv.pem``) and your bank's public certificate (here named
+   ``ideal_v3.cer`` but depends on your bank), and place them in a folder where your web application can access them.
 
 #. Create a config file called ``ideal.cfg`` (or copy and modify the ``ideal-example.cfg``)::
 

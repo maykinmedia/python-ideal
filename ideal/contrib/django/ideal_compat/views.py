@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
@@ -94,7 +95,11 @@ class StartTransactionForm(forms.Form, IdealFormMixin):
     amount = forms.DecimalField(max_digits=12, decimal_places=2)
     description = forms.CharField(max_length=32)
     entrance_code = forms.CharField(max_length=40, required=False)
-    merchant_return_url = forms.URLField(required=False)
+    merchant_return_url = forms.URLField(
+        required=False,
+        help_text=_('If you want to stay on this testing website, the URL should be: '
+                    '&lt;your domain&gt;/ideal/tests/get_transaction_status/')
+    )
     expiration_period = forms.CharField(max_length=10, required=False)
     language = forms.ChoiceField(choices=(('nl', 'nl'), ('en', 'en')), required=False)
 
