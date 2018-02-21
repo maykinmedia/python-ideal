@@ -1,7 +1,6 @@
+from io import open
 import os
 import re
-
-import six
 
 IDEAL_NAMESPACES = {
     'ideal': 'http://www.idealdesk.com/ideal/messages/mer-acq/3.3.1',
@@ -16,8 +15,6 @@ def render_to_string(template_file, ctx):
 
     data = data.format(**ctx)
 
-    if not isinstance(data, six.text_type):
-        data = data.decode('utf-8')
     return data
 
 

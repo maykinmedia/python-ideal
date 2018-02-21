@@ -1,4 +1,6 @@
 # -*- encoding: utf8 -*-
+from io import open
+
 import os
 
 from ideal.client import IdealClient
@@ -15,7 +17,7 @@ class MockIdealClient(IdealClient):
         result = f.read()
         f.close()
 
-        return result
+        return result.encode("utf-8")
 
     def _request(self, data):
         """
