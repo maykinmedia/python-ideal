@@ -289,7 +289,7 @@ class IdealClient(object):
 
         try:
             xml_document = etree.parse(BytesIO(response.content))
-        except XMLSyntaxError, e:
+        except XMLSyntaxError as e:
             raise IdealServerException('iDEAL response could not be parsed: {error}'.format(error=e))
 
         response.xml = xml_document
@@ -334,7 +334,7 @@ class IdealClient(object):
         response = self.create_response(raw_response.headers, raw_response.content, raw_response.status_code, request)
 
         # If logging is set to DEBUG, don't log this. All details are logged in DEBUG level above.
-        if logging >= logging.INFO:
+        if logger.level >= logging.INFO:
             logger.info('%(request_method)s %(url)s (HTTP %(response_status)s)', {
                 'request_method': request.method,
                 'url': request.uri,
@@ -384,7 +384,8 @@ class IdealClient(object):
         if language is None:
             language = settings.LANGUAGE
         if entrance_code is None:
-            entrance_code = hashlib.sha1(uuid.uuid4().hex).hexdigest()
+            entrance_code = hashlib.sha1(
+                uuid.uuid4().hex.encode('utf-8')).hexdigest()
         if expiration_period is None:
             expiration_period = settings.EXPIRATION_PERIOD
 
