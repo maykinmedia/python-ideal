@@ -1,13 +1,8 @@
 import os
 
-import six
+from six.moves import configparser
 
 from ideal.exceptions import IdealConfigurationException
-
-if six.PY2:
-    import ConfigParser as configparser
-else:
-    import configparser
 
 
 class Settings(object):

@@ -71,7 +71,7 @@ It is assumed you have already requested access at your bank for iDEAL.
     ideal = IdealClient()
 
     response = ideal.get_issuers()
-    print response.issuers
+    print(response.issuers)
 
 
 Settings
@@ -160,19 +160,21 @@ Django
 
         def get_redirect_url(self, **kwargs):
             """
-            Simplistic view to handle the callback. You probably want to update your database with the transaction
-            status as well, or sent a confirmation email, etc.
+            Simplistic view to handle the callback. You probably want to 
+            update your database with the transaction status as well, 
+            or sent a confirmation email, etc.
             """
             client = IdealClient()
 
             try:
-                response = client.get_transaction_status(self.request.GET.get('trxid'))
+                response = client.get_transaction_status(
+                    self.request.GET.get('trxid'))
                 if response.status == TransactionStatus.SUCCESS:
                     # Redirect to some view with a success message.
                     return '<payment success url>'
-            except IdealException, e:
+            except IdealException as e:
                 # Do something with the error message.
-                error_message = e.message
+                error_message = e
 
             # Redirect to some view with a failure message.
             return '<payment failed url>'
